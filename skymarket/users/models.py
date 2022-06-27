@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractBaseUser, AbstractUser
+from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from .managers import UserManager
 from phonenumber_field.modelfields import PhoneNumberField
@@ -6,8 +6,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractBaseUser):
-
-    objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'phone', 'role']
@@ -22,6 +20,8 @@ class User(AbstractBaseUser):
     email = models.EmailField(max_length=254, unique=True)
     role = models.CharField(max_length=5, default='user', choices=ROLE)
     image = models.ImageField()
+
+    objects = UserManager()
 
     @property
     def is_superuser(self):
