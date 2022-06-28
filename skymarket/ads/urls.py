@@ -1,8 +1,9 @@
 from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+from .views import AdViewSet
 
-# TODO настройка роутов для модели
+router = DefaultRouter()
+router.register(r'ads', AdViewSet)
 
 
-urlpatterns = [
-
-]
+urlpatterns = router.urls

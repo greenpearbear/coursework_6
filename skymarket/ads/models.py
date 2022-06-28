@@ -3,14 +3,15 @@ from users.models import User
 
 
 class Ad(models.Model):
-    title = models.CharField(max_length=30)
-    price = models.IntegerField()
-    description = models.CharField(max_length=254)
+    title = models.CharField(max_length=200)
+    price = models.PositiveIntegerField()
+    description = models.CharField(max_length=1000)
+    image = models.ImageField(upload_to='images/', null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['created_at']
+        ordering = ['-created_at']
         verbose_name = 'Объявление'
         verbose_name_plural = 'Объявления'
 

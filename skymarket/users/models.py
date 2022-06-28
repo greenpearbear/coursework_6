@@ -2,12 +2,23 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from django.utils import timezone
 
-from .managers import CustomUserManager
+from .managers import UserManager
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 
 
+class UserRoles:
+    USER = "user"
+    ADMIN = "admin"
+    choices = (
+        (USER, USER),
+        (ADMIN, ADMIN),
+    )
+
+
 class User(AbstractBaseUser):
+
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'phone']
@@ -20,24 +31,11 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=20)
     phone = PhoneNumberField()
     email = models.EmailField(max_length=254, unique=True)
-    role = models.CharField(max_length=5, default='user', choices=ROLE)
+    role = models.CharField(max_length=5, default=UserRoles.USER, choices=UserRoles.choices)
     image = models.ImageField()
-    is_staff = models.BooleanField(
-        _("staff status"),
-        default=False,
-        help_text=_("Designates whether the user can log into this admin site."),
-    )
-    is_active = models.BooleanField(
-        _("active"),
-        default=True,
-        help_text=_(
-            "Designates whether this user should be treated as active. "
-            "Unselect this instead of deleting accounts."
-        ),
-    )
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField()
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
-
-    objects = CustomUserManager()
 
     @property
     def is_superuser(self):

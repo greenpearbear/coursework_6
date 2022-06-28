@@ -5,8 +5,7 @@ from django.conf.urls.static import static
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from rest_framework.routers import SimpleRouter
-from djoser.views import UserViewSet
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -21,15 +20,15 @@ schema_view = get_schema_view(
     permission_classes=([permissions.AllowAny],),
 )
 
-users_router = SimpleRouter()
-users_router.register("users", UserViewSet, basename="users")
-
 
 urlpatterns = [
     path("api/admin/", admin.site.urls),
     path("api/redoc-tasks/", include("redoc.urls")),
-    path("", include(users_router.urls)),
-    re_path(r'^auth/', include('djoser.urls.jwt')),
+    path("api/", include('users.urls')),
+    re_path('api/', include('djoser.urls.jwt')),
+    path("api/", include('ads.urls')),
+    path('api/token/', TokenObtainPairView.as_view()),
+    path('refresh/', TokenRefreshView.as_view()),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

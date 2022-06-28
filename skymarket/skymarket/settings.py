@@ -34,7 +34,6 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
-# TODO здесь тоже нужно подключить Swagger и corsheaders
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -42,9 +41,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "redoc",
-    'rest_framework_simplejwt',
     "djoser",
+    'rest_framework_simplejwt',
+    "redoc",
     "drf_yasg",
     "corsheaders",
     "rest_framework",
@@ -84,13 +83,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "skymarket.wsgi.application"
 
-# TODO здесь мы настраиваем аутентификацию и пагинацию
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    "DEFAULT_PAGINATION_CLASS": 'rest_framework.pagination.PageNumberPagination',
+    "PAGE_SIZE": 4,
 }
-# TODO здесь мы настраиваем Djoser
+
 DJOSER = {
     'USER_ID_FIELD': "pk",
     'LOGIN_FIELD': 'email',
@@ -105,7 +105,7 @@ DJOSER = {
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# TODO здесь необходимо настроить подключение к БД
+
 DATABASES = {
     "default": {
         'ENGINE': os.getenv('DB_ENGINE'),
@@ -169,7 +169,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Include Email Backend
-# TODO эти переменные мы добавили чтобы помочь Вам настроить почтовый ящик на django.
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_HOST = os.getenv('EMAIL_HOST')
