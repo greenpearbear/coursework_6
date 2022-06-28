@@ -36,5 +36,6 @@ class CustomUserManager(BaseUserManager):
             password=password
         )
         user.role = "admin"
+        user.is_staff = True
         user.save(using=self._db)
         return user

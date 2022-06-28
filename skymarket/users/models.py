@@ -56,3 +56,7 @@ class User(AbstractBaseUser):
     @property
     def is_user(self):
         return self.role == 'user'
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
