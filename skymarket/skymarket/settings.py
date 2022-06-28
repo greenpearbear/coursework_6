@@ -94,12 +94,13 @@ REST_FRAMEWORK = {
 DJOSER = {
     'USER_ID_FIELD': "pk",
     'LOGIN_FIELD': 'email',
-    "SEND_ACTIVATION_EMAIL": True,
-    "ACTIVATION_URL": "activate/{uid}/{token}",
-    "PASSWORD_RESET_CONFIRM_URL": "reset_password/{uid}/{token}",
     'SERIALIZERS': {
         'user_create': 'users.serializers.UserRegistrationSerializer'
     },
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'EMAIL': {
+        'password_reset': 'users.email.PasswordResetEmail',
+    }
 }
 
 # Database
